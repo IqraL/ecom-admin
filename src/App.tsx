@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import { ErrorBoundary } from "react-error-boundary";
+import { Body } from "./components/Body";
+import { Header } from "./components/Header/Header";
+import type { SortByType } from "./components/SortBy/SortBy";
+import { SortBy } from "./components/SortBy/SortBy";
 
 function ErrorFallback({ error }: { error: unknown }) {
   useEffect(() => {
@@ -17,25 +22,32 @@ function ErrorFallback({ error }: { error: unknown }) {
 }
 
 function App() {
+  const [sortBy, setSortBy] = useState<SortByType>("default");
+
   return (
     <>
       <div
         style={{
           height: "100vh",
           display: "grid",
-          gridTemplateRows: "2fr 10fr",
+          gridTemplateRows: "2fr 0fr 10fr",
         }}
       >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
         </ErrorBoundary>
-        <div>H</div>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <SortBy setSortByParent={setSortBy} />
+        </ErrorBoundary>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Body sortBy={sortBy} />
+        </ErrorBoundary>
+        
       </div>
     </>
   );
 }
 
-const Header = () => {
-  return <div>H</div>;
-};
+export const Categories = () => {};
+
 export default App;
