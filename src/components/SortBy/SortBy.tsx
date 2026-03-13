@@ -21,6 +21,7 @@ export const SortBy = ({
   };
 
   return (
+    <div>
     <Box sx={{ maxWidth: 150 }}>
       <FormControl fullWidth>
         <InputLabel id="sort-label">Sort</InputLabel>
@@ -41,5 +42,6 @@ export const SortBy = ({
         </Select>
       </FormControl>
     </Box>
+    </div>
   );
 };

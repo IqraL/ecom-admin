@@ -9,6 +9,7 @@ export const Header = () => {
       style={{
         display: "grid",
         gridTemplateColumns: "9fr 1fr",
+        height: "fit-content",
       }}
     >
       <BrandName />
@@ -16,5 +17,3 @@ export const Header = () => {
     </div>
   );
 };
-
-

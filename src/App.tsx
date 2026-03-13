@@ -28,9 +28,10 @@ function App() {
     <>
       <div
         style={{
-          height: "100vh",
           display: "grid",
-          gridTemplateRows: "2fr 0fr 10fr",
+          gridTemplateRows: "0fr 0fr 10fr",
+          width: "100wh",
+          overflow: "scroll"
         }}
       >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
