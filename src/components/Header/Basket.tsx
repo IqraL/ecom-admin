@@ -1,4 +1,5 @@
 import type React from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 
 export const Basket = () => {
@@ -8,9 +9,19 @@ export const Basket = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        cursor: "grab",
       }}
     >
-      Basket
+      <a
+        href="/cart"
+        style={{
+          color: "inherit",
+          textDecoration: "none",
+          outline: "none",
+        }}
+      >
+        <ShoppingCartIcon sx={{ fontSize: 40 }} />
+      </a>
     </div>
   );
 };

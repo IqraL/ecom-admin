@@ -1,14 +1,6 @@
-import type React from "react";
+import React, { useMemo } from "react";
+import type { Product } from "../../SharedTypes";
 import Button from "@mui/material/Button";
-import type { SortByType } from "../components/SortBy/SortBy";
-import type { Product } from "../SharedTypes";
-import { useMemo } from "react";
-import { ProductsPage } from "./Products/ProductsPage"
-
-export const Body = ({ sortBy }: { sortBy: SortByType }) => {
-  console.log(`Body:${sortBy}`);
-  return <ProductsPage sortBy={sortBy} />;
-};
 
 export const ProductCard = ({ product }: { product: Product }) => {
   const price = useMemo(() => {
@@ -96,5 +88,3 @@ export const ProductCard = ({ product }: { product: Product }) => {
     </div>
   );
 };
-
-
