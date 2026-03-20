@@ -1,5 +1,5 @@
 import type React from "react";
-import { dummyProduct, dummyProductTwo } from "./dummyProduct";
+import { dummyProduct, dummyProductTwo, dummyProducts } from "./dummyProduct";
 import type { SortByType } from "../SortBy/SortBy";
 import { ProductCard } from "./ProductCard";
 
@@ -18,15 +18,10 @@ export const ProductsPage = ({ sortBy }: { sortBy: SortByType }) => {
         overflowX: "hidden",
       }}
     >
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProductTwo} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
-      <ProductCard product={dummyProduct} />
+      {dummyProducts.map((product)=>{
+        return <ProductCard product={product} />;
+      })}
+    
     </div>
   );
 };

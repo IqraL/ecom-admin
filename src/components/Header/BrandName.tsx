@@ -1,5 +1,4 @@
 import type React from "react";
-import logo from "../../assets/brandLogo.svg";
 
 export const BrandName = () => {
   return (
@@ -12,7 +11,9 @@ export const BrandName = () => {
       <div></div>
 
       <div>
-        <img height={100} width={700} src={logo} />
+        <a href="/" style={{textDecoration: "none", color:"black"}}>
+          <h1>Demo</h1>
+        </a>
       </div>
       <div></div>
     </div>

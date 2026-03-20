@@ -1,100 +1,18 @@
 import type React from "react";
-import Button from "@mui/material/Button";
+import {  Routes, Route } from "react-router";
 import type { SortByType } from "../components/SortBy/SortBy";
-import type { Product } from "../SharedTypes";
-import { useMemo } from "react";
 import { ProductsPage } from "./Products/ProductsPage"
+import { ProductDetails } from "./Products/ProductDetails";
+import { Cart } from "./Cart/Cart";
 
 export const Body = ({ sortBy }: { sortBy: SortByType }) => {
   console.log(`Body:${sortBy}`);
-  return <ProductsPage sortBy={sortBy} />;
-};
-
-export const ProductCard = ({ product }: { product: Product }) => {
-  const price = useMemo(() => {
-    return product.meta[0]?.price;
-  }, [product.meta]);
-
   return (
-    <div
-      style={{
-        width: 350,
-        border: "1px solid #e5e5e5",
-        borderRadius: 12,
-        overflow: "scroll",
-        background: "#fff",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-        transition: "transform 0.2s ease, box-shadow 0.2s ease",
-        height: 650,
-      }}
-    >
-      <div style={{ margin: 20 }}>
-        <img
-          src={product.coverImg}
-          alt={product.name}
-          width={"100%"}
-          height={350}
-          style={{
-            objectFit: "cover",
-            display: "block",
-            maxWidth: 310,
-          }}
-        />
-      </div>
-
-      <div
-        style={{
-          padding: 16,
-          display: "grid",
-          gridTemplateRows: "1fr 3fr 1fr 1fr",
-          alignItems: "center",
-          justifyItems: "anchor-center",
-        }}
-      >
-        <div
-          style={{
-            fontSize: 18,
-            fontWeight: 600,
-            marginBottom: 6,
-          }}
-        >
-          {product.name}
-        </div>
-
-        <div
-          style={{
-            fontSize: 14,
-            color: "#666",
-            marginBottom: 12,
-            lineHeight: 1.4,
-            height: "100px",
-            maxHeight: "100px",
-            overflow: "scroll",
-          }}
-        >
-          {product.description}
-        </div>
-
-        <div
-          style={{
-            fontSize: 16,
-            fontWeight: 700,
-          }}
-        >
-          £{price}
-        </div>
-        <div>
-          <Button
-            href={`/product?id=${product.id}`}
-            color="primary"
-            variant="contained"
-          >
-            view details
-          </Button>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route index element={<ProductsPage sortBy={sortBy} />} />
+      <Route path="product" element={<ProductDetails />} />
+      <Route path="cart" element={<Cart />} />
+    </Routes>
   );
 };
-
 

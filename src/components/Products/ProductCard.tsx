@@ -10,7 +10,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div
       style={{
-        width: 350,
+        width: 550,
         border: "1px solid #e5e5e5",
         borderRadius: 12,
         overflow: "scroll",
@@ -20,7 +20,14 @@ export const ProductCard = ({ product }: { product: Product }) => {
         height: 650,
       }}
     >
-      <div style={{ margin: 20 }}>
+      <div
+        style={{
+          margin: 20,
+          display: "flex",
+          justifyContent: "center",
+        }}
+        className="img_wrapper"
+      >
         <img
           src={product.coverImg}
           alt={product.name}
@@ -38,7 +45,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
         style={{
           padding: 16,
           display: "grid",
-          gridTemplateRows: "1fr 3fr 1fr 1fr",
+          gridTemplateRows: "0fr 0fr 0fr 1fr",
           alignItems: "center",
           justifyItems: "anchor-center",
         }}
@@ -55,13 +62,14 @@ export const ProductCard = ({ product }: { product: Product }) => {
 
         <div
           style={{
+            display: "flex",
             fontSize: 14,
             color: "#666",
             marginBottom: 12,
-            lineHeight: 1.4,
             height: "100px",
             maxHeight: "100px",
             overflow: "scroll",
+            alignItems: "center",
           }}
         >
           {product.description}
