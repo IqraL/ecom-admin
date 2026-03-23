@@ -1,69 +1,55 @@
 import type React from "react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const dummyProductWithVariants = {
-  _id: "69b872d1c2e4d3d6b5443559",
-  id: "p3",
-  name: "North Vale Heavy Hoodie",
-  tag: "hoodie",
-  description:
-    "A premium cotton everyday tee designed for comfort and durability. Minimal North Vale aesthetic with a relaxed fit. A premium cotton everyday tee designed for comfort and durability. Minimal North Vale aesthetic with a relaxed fit.A premium cotton everyday tee designed for comfort and durability. Minimal North Vale aesthetic with a relaxed fit. A premium cotton everyday tee designed for comfort and durability. Minimal North Vale aesthetic with a relaxed fit.\n\n",
-  coverImg: "https://m.media-amazon.com/images/I/51FofTl6mEL._AC_SX679_.jpg",
-  position: 3,
-  meta: [
-    {
-      stock: 60,
-      size: "M",
-      color: "Black",
-      imgs: ["https://m.media-amazon.com/images/I/41GWU6v+dUL._AC_SX679_.jpg"],
-      price: 75,
-      discounted: false,
-    },
-    {
-      stock: 45,
-      size: "L",
-      color: "White",
-      imgs: ["https://m.media-amazon.com/images/I/51FofTl6mEL._AC_SX679_.jpg"],
-      price: 75,
-      discounted: true,
-      discountedPrice: 65,
-    },
-    {
-      stock: 45,
-      size: "S",
-      color: "White",
-      imgs: ["https://m.media-amazon.com/images/I/51FofTl6mEL._AC_SX679_.jpg"],
-      price: 75,
-      discounted: true,
-      discountedPrice: 65,
-    },
-    {
-      stock: 45,
-      size: "S",
-      color: "Blue",
-      imgs: ["https://m.media-amazon.com/images/I/71lP3O+MMLL._AC_SX679_.jpg"],
-      price: 75,
-      discounted: true,
-      discountedPrice: 65,
-    },
-  ],
-};
+import type { Product } from "../../SharedTypes";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const ProductDetails = () => {
   const [isHovering, setIsHovering] = useState(false);
 
-  const variants = dummyProductWithVariants.meta;
+  const [product, setProduct] = useState<Product | null>(null);
+
+  const [searchParams] = useSearchParams();
+
+  const productId = searchParams.get("id");
+
+ 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`${API_URL}/products/get-by-id`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({ productId }),
+          credentials: "include",
+        });
+        const product = await response.json();
+        setProduct(product);
+      } catch (error) {
+        console.log("fetchProduct error", error);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
+
+  const variants = useMemo(() => {
+    return product?.meta ?? [];
+  }, [product?.meta]);
 
   const colors = useMemo(() => {
-    const values = dummyProductWithVariants.meta.map(
-      (variant) => variant.color
-    );
+    const values = product?.meta.map((variant) => variant.color) ?? [];
     return [...new Set(values)];
-  }, []);
+  }, [product?.meta]);
 
   const sizes = useMemo(() => {
-    const values = dummyProductWithVariants.meta.map((variant) => variant.size);
+    const values = product?.meta.map((variant) => variant.size) ?? [];
     return [...new Set(values)];
-  }, []);
+  }, [product?.meta]);
 
   const [selectedColor, setSelectedColor] = useState<string | null>(
     colors?.[0] || null
@@ -71,6 +57,17 @@ export const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(
     sizes?.[0] || null
   );
+
+   const addToCart = useCallback(async () => {
+     await fetch(`${API_URL}/add-to-cart`, {
+       headers: {
+         "Content-Type": "application/json",
+       },
+       method: "POST",
+       body: JSON.stringify({ productId, selectedColor, selectedSize }),
+       credentials: "include",
+     });
+   }, [productId, selectedColor, selectedSize]);
 
   const filteredProduct = useMemo(() => {
     return variants.find((productVariants) => {
@@ -106,7 +103,7 @@ export const ProductDetails = () => {
         }}
       >
         <img
-          src={filteredProduct?.imgs?.[0] ?? dummyProductWithVariants.coverImg}
+          src={filteredProduct?.imgs?.[0] ?? product?.coverImg}
           style={{
             width: "100%",
             maxWidth: 450,
@@ -117,12 +114,10 @@ export const ProductDetails = () => {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        <div style={{ fontSize: 28, fontWeight: 600 }}>
-          {dummyProductWithVariants.name}
-        </div>
+        <div style={{ fontSize: 28, fontWeight: 600 }}>{product?.name}</div>
 
         <div style={{ color: "#555", lineHeight: 1.6 }}>
-          {dummyProductWithVariants.description}
+          {product?.description}
         </div>
 
         <div>
@@ -185,7 +180,7 @@ export const ProductDetails = () => {
         <div>
           {filteredProduct && (
             <button
-              onClick={() => {}}
+              onClick={addToCart}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               style={{
@@ -206,33 +201,3 @@ export const ProductDetails = () => {
     </div>
   );
 };
-
-// <div
-//   style={{ display: "grid", gridTemplateColumns: "2fr 3fr", paddingTop: 100 }}
-// >
-//   <div>
-//     <img
-//       src={filteredProduct?.imgs?.[0] ?? dummyProductWithVariants.coverImg}
-//       height={500}
-//       width={500}
-//     />
-//   </div>
-//   <div>
-//     <div>{dummyProductWithVariants.name}</div>
-//     <div>{dummyProductWithVariants.description}</div>
-
-//     <div>
-//       {colors.map((color) => {
-//         return (
-//           <button onClick={() => setSelectedColor(color)}>{color}</button>
-//         );
-//       })}
-//     </div>
-//     <div>
-//       {sizes.map((size) => {
-//         return <button onClick={() => setSelectedSize(size)}>{size}</button>;
-//       })}
-//     </div>
-//     <div>{filteredProduct?.price}</div>
-//   </div>
-// </div>;

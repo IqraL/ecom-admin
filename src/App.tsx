@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter } from "react-router";
 
 import { Body } from "./components/Body";
 import { Header } from "./components/Header/Header";
@@ -51,7 +50,5 @@ function App() {
     </>
   );
 }
-
-export const Categories = () => {};
 
 export default App;
