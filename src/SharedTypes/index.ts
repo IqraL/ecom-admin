@@ -6,6 +6,7 @@ export type ProductMetaData = {
   price: number;
   discounted: boolean;
   discountedPrice?: number;
+  variantId: string;
 };
 export type Product = {
   id: string;
@@ -15,4 +16,30 @@ export type Product = {
   coverImg: string;
   position: number;
   meta: ProductMetaData[];
+};
+
+export type CartItem = {
+  productId: string;
+  name: string;
+  variantId: string;
+  size: string;
+  color: string;
+  quantity: number;
+  price: number;
+  discounted: boolean;
+  discountedPrice?: number;
+  imgs: string[];
+};
+export type Cart = {
+  cartId: string;
+  cartItems: CartItem[];
+};
+
+export enum CartAction {
+  ADD = "add",
+  REMOVE = "remove",
+}
+export type RemoveFromCartBody = {
+  productId: string;
+  variantId: string;
 };

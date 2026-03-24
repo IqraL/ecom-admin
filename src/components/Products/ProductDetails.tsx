@@ -2,7 +2,7 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import type { Product } from "../../SharedTypes";
+import { CartAction, type CartItem, type Product } from "../../SharedTypes";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,7 +15,6 @@ export const ProductDetails = () => {
 
   const productId = searchParams.get("id");
 
- 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -58,26 +57,41 @@ export const ProductDetails = () => {
     sizes?.[0] || null
   );
 
-   const addToCart = useCallback(async () => {
-     await fetch(`${API_URL}/add-to-cart`, {
-       headers: {
-         "Content-Type": "application/json",
-       },
-       method: "POST",
-       body: JSON.stringify({ productId, selectedColor, selectedSize }),
-       credentials: "include",
-     });
-   }, [productId, selectedColor, selectedSize]);
-
-  const filteredProduct = useMemo(() => {
-    return variants.find((productVariants) => {
+  const [filteredProduct] = useMemo(() => {
+    const filteredProduct = variants.find((productVariants) => {
       return (
         productVariants.size === selectedSize &&
         productVariants.color === selectedColor
       );
     });
+
+    return [filteredProduct];
   }, [selectedColor, selectedSize, variants]);
 
+  const cartItem = useMemo<CartItem | null>(() => {
+    if (filteredProduct && product) {
+      return {
+        name: product.name,
+        productId: product.id,
+        ...filteredProduct,
+        quantity: 1,
+      };
+    }
+    return null;
+  }, [filteredProduct, product]);
+
+  const addToCart = useCallback(async () => {
+    await fetch(`${API_URL}/add-to-cart`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ cartItem, cartAction: CartAction.ADD }),
+      credentials: "include",
+    });
+  }, [cartItem]);
+
+  
   if (!colors.length || !sizes.length) {
     return <div>No initial Values for colors or sizes</div>;
   }

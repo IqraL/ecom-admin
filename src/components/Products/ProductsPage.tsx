@@ -11,13 +11,13 @@ import type { Product } from "../../SharedTypes";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function CircularIndeterminate() {
+export const CircularIndeterminate = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CircularProgress />
     </Box>
   );
-}
+};
 
 export const ProductsPage = ({ sortBy }: { sortBy: SortByType }) => {
   const [loadingProducts, setLoadingProducts] = useState(false);
