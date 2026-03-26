@@ -6,8 +6,11 @@ import type {
   Product,
   Cart,
 } from "../../SharedTypes";
-import { Box, CircularProgress } from "@mui/material";
 import { CircularIndeterminate } from "../Shared";
+import { ProductRow } from "./ProductRow";
+import { ProductHeadings } from "./ProductHeadings";
+import { TotalRow } from "./TotalRow";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const CartPage = () => {
@@ -51,5 +54,25 @@ export const CartPage = () => {
   if (isLoading) {
     return <CircularIndeterminate />;
   }
-  return <div>cart page</div>;
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 3fr 1fr",
+        paddingTop: "150px",
+      }}
+    >
+      <div></div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <ProductHeadings />
+        {cartItems?.map((cartItem) => {
+          return <ProductRow cartItem={cartItem} />;
+        })}
+        <TotalRow total={fetchedTotal ?? 0} />
+      </div>
+      <div></div>
+    </div>
+  );
 };
+
+
