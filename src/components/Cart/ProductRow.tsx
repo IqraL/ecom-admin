@@ -1,7 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import type { CartItem, FetchCartParams } from "../../SharedTypes";
 import { CartAction } from "../../SharedTypes";
 import { fetchCart } from "./helper";
+import { CartUpdateButton } from "./CartUpdateButton";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const ProductRow = ({
@@ -84,26 +87,26 @@ export const ProductRow = ({
         <div style={{ display: "flex", flexDirection: "row" }}>{quantity}</div>
         <div>£{priceOfItem}</div>
         <div>£{totalItemPrice}</div>
-        <div>
-          <button
-            onClick={() => {
-              updateCart(CartAction.ADD);
-            }}
-          >
-            +
-          </button>
-          <button
-            onClick={() => {
-              updateCart(CartAction.REMOVE);
-            }}
-          >
-            -
-          </button>
+        <div style={{ display: "flex" }}>
+          <CartUpdateButton
+            updateCart={updateCart}
+            cartAction={CartAction.ADD}
+          />
+          <CartUpdateButton
+            updateCart={updateCart}
+            cartAction={CartAction.REMOVE}
+          />
         </div>
         <div>
-          <button onClick={removeItem}>Bin</button>
+          <DeleteOutlineIcon
+            onClick={removeItem}
+            fontSize="medium"
+            style={{ cursor: "pointer" }}
+          />
         </div>
       </div>
     </div>
   );
 };
+
+

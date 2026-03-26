@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import type React from "react";
 
 export const TotalRow = ({ total }: { total: number; }) => {
@@ -25,7 +26,8 @@ export const TotalRow = ({ total }: { total: number; }) => {
           textTransform: "uppercase",
           color: "black",
 
-          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         }}
       >
         <div></div>
@@ -35,7 +37,9 @@ export const TotalRow = ({ total }: { total: number; }) => {
         <div>Total: </div>
         <div>£{total}</div>
         <div></div>
-        <div></div>
+        <div>
+          <Button variant="contained">Checkout</Button>
+        </div>
       </div>
     </div>
   );
