@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import type { CartItem, FetchCartParams } from "../../SharedTypes";
+import { CartAction } from "../../SharedTypes";
 import { fetchCart } from "./helper";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,6 +42,25 @@ export const ProductRow = ({
     }
   }, [cartItem.productId, cartItem.variantId, reFetchCart]);
 
+  const updateCart = useCallback(
+    async (action: CartAction) => {
+      await fetch(`${API_URL}/cart/add`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          cartItem,
+          cartAction:
+            action === CartAction.ADD ? CartAction.ADD : CartAction.REMOVE,
+        }),
+        credentials: "include",
+      });
+      fetchCart({ ...reFetchCart });
+    },
+    [cartItem, reFetchCart]
+  );
+
   return (
     <div
       style={{
@@ -65,8 +85,20 @@ export const ProductRow = ({
         <div>£{priceOfItem}</div>
         <div>£{totalItemPrice}</div>
         <div>
-          <button>+</button>
-          <button>-</button>
+          <button
+            onClick={() => {
+              updateCart(CartAction.ADD);
+            }}
+          >
+            +
+          </button>
+          <button
+            onClick={() => {
+              updateCart(CartAction.REMOVE);
+            }}
+          >
+            -
+          </button>
         </div>
         <div>
           <button onClick={removeItem}>Bin</button>

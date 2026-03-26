@@ -2,8 +2,10 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import Tooltip, { type TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-
+import Tooltip, {
+  type TooltipProps,
+  tooltipClasses,
+} from "@mui/material/Tooltip";
 
 export const AddToCartTooltip = styled(
   ({ className, ...props }: TooltipProps) => (
@@ -17,7 +19,6 @@ export const AddToCartTooltip = styled(
     border: "3px solid blue",
   },
 }));
-
 
 import { CartAction, type CartItem, type Product } from "../../SharedTypes";
 
@@ -102,7 +103,10 @@ export const ProductDetails = () => {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ cartItem, cartAction: CartAction.ADD }),
+      body: JSON.stringify({
+        cartItem,
+        cartAction: CartAction.ADD,
+      }),
       credentials: "include",
     });
     setAddedToCart(false);
