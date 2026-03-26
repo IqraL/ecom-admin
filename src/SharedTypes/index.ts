@@ -29,6 +29,7 @@ export type CartItem = {
   discounted: boolean;
   discountedPrice?: number;
   imgs: string[];
+  stock: number;
 };
 export type Cart = {
   cartId: string;
@@ -42,4 +43,9 @@ export enum CartAction {
 export type RemoveFromCartBody = {
   productId: string;
   variantId: string;
+};
+export type FetchCartResponse = {
+  cart: Cart;
+  products: Product[];
+  total: number;
 };

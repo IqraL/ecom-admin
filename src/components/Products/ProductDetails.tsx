@@ -1,6 +1,23 @@
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Tooltip, { type TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+
+
+export const AddToCartTooltip = styled(
+  ({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  )
+)(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "red !important",
+    color: "white !important",
+    fontSize: "20px",
+    border: "3px solid blue",
+  },
+}));
+
 
 import { CartAction, type CartItem, type Product } from "../../SharedTypes";
 
@@ -8,11 +25,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const ProductDetails = () => {
   const [isHovering, setIsHovering] = useState(false);
-
   const [product, setProduct] = useState<Product | null>(null);
-
+  const [addedToCart, setAddedToCart] = useState(false);
   const [searchParams] = useSearchParams();
-
   const productId = searchParams.get("id");
 
   useEffect(() => {
@@ -81,7 +96,8 @@ export const ProductDetails = () => {
   }, [filteredProduct, product]);
 
   const addToCart = useCallback(async () => {
-    await fetch(`${API_URL}/add-to-cart`, {
+    setAddedToCart(true);
+    await fetch(`${API_URL}/cart/add`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -89,9 +105,9 @@ export const ProductDetails = () => {
       body: JSON.stringify({ cartItem, cartAction: CartAction.ADD }),
       credentials: "include",
     });
+    setAddedToCart(false);
   }, [cartItem]);
 
-  
   if (!colors.length || !sizes.length) {
     return <div>No initial Values for colors or sizes</div>;
   }
@@ -209,6 +225,27 @@ export const ProductDetails = () => {
             >
               Add to cart
             </button>
+          )}
+          {addedToCart && (
+            <AddToCartTooltip title="Added to cart">
+              <div
+                style={{
+                  fontSize: 14,
+                  backgroundColor: "#111",
+                  color: "#fff",
+                  padding: "6px 12px",
+                  borderRadius: 6,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 500,
+                  letterSpacing: 0.3,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                }}
+              >
+                Added to cart
+              </div>
+            </AddToCartTooltip>
           )}
         </div>
       </div>

@@ -8,16 +8,10 @@ import type { SortByType } from "../SortBy/SortBy";
 import { ProductCard } from "./ProductCard";
 import { useEffect, useState } from "react";
 import type { Product } from "../../SharedTypes";
+import { CircularIndeterminate } from "../Shared";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const CircularIndeterminate = () => {
-  return (
-    <Box sx={{ display: "flex" }}>
-      <CircularProgress />
-    </Box>
-  );
-};
 
 export const ProductsPage = ({ sortBy }: { sortBy: SortByType }) => {
   const [loadingProducts, setLoadingProducts] = useState(false);
