@@ -10,6 +10,7 @@ import { CircularIndeterminate } from "../Shared";
 import { ProductRow } from "./ProductRow";
 import { ProductHeadings } from "./ProductHeadings";
 import { TotalRow } from "./TotalRow";
+import { fetchCart } from "./helper";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,32 +24,13 @@ export const CartPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${API_URL}/cart/fetch`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "GET",
-          credentials: "include",
-        });
-        const { cart, products, total }: FetchCartResponse =
-          await response.json();
-        setFetchedProducts(products);
-        setFetchedTotal(total);
-        setFetchedCart(cart);
-        if (cart) {
-          setCartItems(cart.cartItems);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.log("fetchProduct error", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchCart();
+    fetchCart({
+      setFetchedCart,
+      setCartItems,
+      setFetchedTotal,
+      setFetchedProducts,
+      setIsLoading,
+    });
   }, []);
 
   if (isLoading) {
@@ -66,7 +48,18 @@ export const CartPage = () => {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <ProductHeadings />
         {cartItems?.map((cartItem) => {
-          return <ProductRow cartItem={cartItem} />;
+          return (
+            <ProductRow
+              cartItem={cartItem}
+              reFetchCart={{
+                setFetchedCart,
+                setCartItems,
+                setFetchedTotal,
+                setFetchedProducts,
+                setIsLoading,
+              }}
+            />
+          );
         })}
         <TotalRow total={fetchedTotal ?? 0} />
       </div>
@@ -74,5 +67,3 @@ export const CartPage = () => {
     </div>
   );
 };
-
-
