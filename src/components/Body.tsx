@@ -3,7 +3,7 @@ import {  Routes, Route } from "react-router";
 import type { SortByType } from "../components/SortBy/SortBy";
 import { ProductsPage } from "./Products/ProductsPage"
 import { ProductDetails } from "./Products/ProductDetails";
-import { CartPage } from "./Cart/Cart";
+import { CartPage  } from "./Cart/Cart";
 
 export const Body = ({ sortBy }: { sortBy: SortByType }) => {
   console.log(`Body:${sortBy}`);

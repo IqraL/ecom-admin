@@ -1,18 +1,12 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import type {
-  CartItem,
-  FetchCartResponse,
-  Product,
-  Cart,
-} from "../../SharedTypes";
+import type { CartItem, Product, Cart } from "../../SharedTypes";
 import { CircularIndeterminate } from "../Shared";
 import { ProductRow } from "./ProductRow";
 import { ProductHeadings } from "./ProductHeadings";
 import { TotalRow } from "./TotalRow";
 import { fetchCart } from "./helper";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { EmailInput } from "./EmailInput";
 
 export const CartPage = () => {
   const [fetchedCart, setFetchedCart] = useState<Cart | null>(null);
@@ -22,6 +16,8 @@ export const CartPage = () => {
     null
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
   useEffect(() => {
     fetchCart({
@@ -46,6 +42,11 @@ export const CartPage = () => {
     >
       <div></div>
       <div style={{ display: "flex", flexDirection: "column" }}>
+        <EmailInput
+          setEmail={setEmail}
+          email={email}
+          setIsEmailValid={setIsEmailValid}
+        />
         <ProductHeadings />
         {cartItems?.map((cartItem) => {
           return (
@@ -61,9 +62,10 @@ export const CartPage = () => {
             />
           );
         })}
-        <TotalRow total={fetchedTotal ?? 0} />
+        <TotalRow total={fetchedTotal ?? 0} isEmailValid={isEmailValid} email={email ?? ""} />
       </div>
       <div></div>
     </div>
   );
 };
+

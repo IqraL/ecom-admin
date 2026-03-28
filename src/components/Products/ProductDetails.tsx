@@ -112,10 +112,15 @@ export const ProductDetails = () => {
     setAddedToCart(false);
   }, [cartItem]);
 
+  const noStock = useMemo(() => {
+    return !filteredProduct || filteredProduct.stock === 0;
+  }, [filteredProduct]);
+
   if (!colors.length || !sizes.length) {
     return <div>No initial Values for colors or sizes</div>;
   }
 
+  console.log("filtered Product", filteredProduct);
   return (
     <div
       style={{
@@ -214,6 +219,7 @@ export const ProductDetails = () => {
         <div>
           {filteredProduct && (
             <button
+              disabled={noStock}
               onClick={addToCart}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
@@ -227,7 +233,7 @@ export const ProductDetails = () => {
                 transition: "all 0.2s ease",
               }}
             >
-              Add to cart
+              {noStock ? "No stock" : "Add to cart"}
             </button>
           )}
           {addedToCart && (
