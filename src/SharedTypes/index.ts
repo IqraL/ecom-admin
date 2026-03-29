@@ -50,6 +50,15 @@ export type FetchCartResponse = {
   total: number;
 };
 
+export type OrderDocument = {
+  email: string;
+  orderId: string;
+  cartItems: CartItem[];
+  stripeSuccess: boolean;
+  sessionCompleted: boolean;
+  stripeSessionId: string;
+};
+
 export type FetchCartParams = {
   setIsLoading: (value: boolean) => void;
   setFetchedProducts: (products: Product[]) => void;
@@ -57,3 +66,4 @@ export type FetchCartParams = {
   setFetchedCart: (cart: Cart) => void;
   setCartItems: (cartItems: CartItem[]) => void;
 };
+

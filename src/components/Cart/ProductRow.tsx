@@ -24,7 +24,7 @@ export const ProductRow = ({
     return priceOfItem * cartItem.quantity;
   }, [cartItem.quantity, priceOfItem]);
 
-  const [quantity, setQuantity] = useState(cartItem.quantity);
+  // const [quantity, setQuantity] = useState(cartItem.quantity);
 
   const removeItem = useCallback(async () => {
     try {
@@ -84,7 +84,9 @@ export const ProductRow = ({
         <div>{cartItem.name}</div>
         <div>{cartItem.size}</div>
         <div>{cartItem.color}</div>
-        <div style={{ display: "flex", flexDirection: "row" }}>{quantity}</div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {cartItem.quantity}
+        </div>
         <div>£{priceOfItem}</div>
         <div>£{totalItemPrice}</div>
         <div style={{ display: "flex" }}>
@@ -108,5 +110,3 @@ export const ProductRow = ({
     </div>
   );
 };
-
-
