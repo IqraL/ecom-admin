@@ -31,6 +31,7 @@ function App() {
             gridTemplateRows: "0fr 0fr 10fr",
             width: "100wh",
             overflow: "scroll",
+            height:"100vh"
           }}
         >
           <ErrorBoundary FallbackComponent={ErrorFallback}>
