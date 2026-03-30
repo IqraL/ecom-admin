@@ -61,9 +61,7 @@ export type OrderDocument = {
 
 export type FetchCartParams = {
   setIsLoading: (value: boolean) => void;
-  setFetchedProducts: (products: Product[]) => void;
   setFetchedTotal: (value: number) => void;
-  setFetchedCart: (cart: Cart) => void;
   setCartItems: (cartItems: CartItem[]) => void;
 };
 

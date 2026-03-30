@@ -9,22 +9,16 @@ import { fetchCart } from "./helper";
 import { EmailInput } from "./EmailInput";
 
 export const CartPage = () => {
-  const [fetchedCart, setFetchedCart] = useState<Cart | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[] | null>(null);
   const [fetchedTotal, setFetchedTotal] = useState<number | null>(null);
-  const [fetchedProducts, setFetchedProducts] = useState<Product[] | null>(
-    null
-  );
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const [isEmailValid, setIsEmailValid] = useState(false);
 
   useEffect(() => {
     fetchCart({
-      setFetchedCart,
       setCartItems,
       setFetchedTotal,
-      setFetchedProducts,
       setIsLoading,
     });
   }, []);
@@ -53,19 +47,20 @@ export const CartPage = () => {
             <ProductRow
               cartItem={cartItem}
               reFetchCart={{
-                setFetchedCart,
                 setCartItems,
                 setFetchedTotal,
-                setFetchedProducts,
                 setIsLoading,
               }}
             />
           );
         })}
-        <TotalRow total={fetchedTotal ?? 0} isEmailValid={isEmailValid} email={email ?? ""} />
+        <TotalRow
+          total={fetchedTotal ?? 0}
+          isEmailValid={isEmailValid}
+          email={email ?? ""}
+        />
       </div>
       <div></div>
     </div>
   );
 };
-

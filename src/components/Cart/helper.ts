@@ -3,9 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchCart = async ({
   setIsLoading,
-  setFetchedProducts,
   setFetchedTotal,
-  setFetchedCart,
   setCartItems,
 }: FetchCartParams) => {
   try {
@@ -17,10 +15,8 @@ export const fetchCart = async ({
       method: "GET",
       credentials: "include",
     });
-    const { cart, products, total }: FetchCartResponse = await response.json();
-    setFetchedProducts(products);
+    const { cart, total }: FetchCartResponse = await response.json();
     setFetchedTotal(total);
-    setFetchedCart(cart);
     if (cart) {
       setCartItems(cart.cartItems);
     }
