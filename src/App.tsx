@@ -4,8 +4,6 @@ import { BrowserRouter } from "react-router";
 
 import { Body } from "./components/Body";
 import { Header } from "./components/Header/Header";
-import type { SortByType } from "./components/SortBy/SortBy";
-import { SortBy } from "./components/SortBy/SortBy";
 
 function ErrorFallback({ error }: { error: unknown }) {
   useEffect(() => {
@@ -23,7 +21,6 @@ function ErrorFallback({ error }: { error: unknown }) {
 }
 
 function App() {
-  const [sortBy, setSortBy] = useState<SortByType>("default");
 
   return (
     <>
@@ -39,11 +36,9 @@ function App() {
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <Header />
           </ErrorBoundary>
+        
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <SortBy setSortByParent={setSortBy} />
-          </ErrorBoundary>
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Body sortBy={sortBy} />
+            <Body />
           </ErrorBoundary>
         </div>
       </BrowserRouter>

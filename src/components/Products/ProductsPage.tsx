@@ -13,7 +13,7 @@ import { CircularIndeterminate } from "../Shared";
 const API_URL = import.meta.env.VITE_API_URL;
 
 
-export const ProductsPage = ({ sortBy }: { sortBy: SortByType }) => {
+export const ProductsPage = () => {
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [products, setProducts] = useState<Product[]>([]);

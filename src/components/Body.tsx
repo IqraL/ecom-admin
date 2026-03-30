@@ -6,11 +6,10 @@ import { ProductDetails } from "./Products/ProductDetails";
 import { CartPage } from "./Cart/Cart";
 import { SuccessOrderPage } from "./Order/SuccessOrderPage";
 
-export const Body = ({ sortBy }: { sortBy: SortByType }) => {
-  console.log(`Body:${sortBy}`);
+export const Body = () => {
   return (
     <Routes>
-      <Route index element={<ProductsPage sortBy={sortBy} />} />
+      <Route index element={<ProductsPage  />} />
       <Route path="product" element={<ProductDetails />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="success" element={<SuccessOrderPage />} />
